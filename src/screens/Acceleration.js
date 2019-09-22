@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
+const axios = require('axios')
 
 import AccelerationItem from '../components/AccelerationItem';
 
@@ -88,6 +89,16 @@ export default function Acceleration() {
     retrieveData(dados)
   }, []);
 
+  handlerAcc = () => {
+    axios.get('https://api.codenation.dev/v1/acceleration')
+      .then(response => {
+        console.log(response)
+      }).catch(error => {
+        console.log(error)
+
+      })
+  }
+
   const retrieveData = async () => {
     try {
       const value = AsyncStorage.getItem('user');
@@ -110,7 +121,7 @@ export default function Acceleration() {
       </View>
       <Text style={styles.title}>Acelerações</Text>
       <FlatList
-        data={accelerations}
+        data={handlerAcc}
         keyExtractor={item => item.slug}
         renderItem={({ item, index }) => <AccelerationItem item={item} />}
       />
