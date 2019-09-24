@@ -87,14 +87,11 @@ const accelerations = [{
 export default function Acceleration() {
 
   const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([])
 
   useEffect(() => {
-    retrieveData(dados)
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 600);
+    retrieveData(dados);
+    handlerAcc();
   }, []);
 
   handlerAcc = () => {
@@ -103,18 +100,20 @@ export default function Acceleration() {
         console.log(response)
       }).catch(error => {
         console.log(error)
-
       })
   }
 
   const retrieveData = async () => {
+    setLoading(true);
     try {
-      const value = AsyncStorage.getItem('user');
+      const value = await AsyncStorage.getItem('user');
       if (value !== null) {
         // We have data!!
         console.log(JSON.parse(value));
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       // Error retrieving data
     }
   };
@@ -130,7 +129,7 @@ export default function Acceleration() {
       <ActivityIndicator size="large" animating={loading} />
       <Text style={styles.title}>Acelerações</Text>
       <FlatList
-        data={handlerAcc}
+        data={data}
         keyExtractor={item => item.slug}
         renderItem={({ item, index }) => <AccelerationItem item={item} />}
       />
