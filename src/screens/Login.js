@@ -82,7 +82,7 @@ export default class Login extends React.Component {
           title="Entrar"
           color="#7800ff"
           disabled={(this.validateEmail(this.state.email) && !!this.state.password.length) || this.state.loading === true}
-          onPress={this.handlerSubmit()}
+          onPress={()=> this.handlerSubmit()}
         >
         </Button>
       </View>
