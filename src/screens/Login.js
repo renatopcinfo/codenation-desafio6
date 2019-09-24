@@ -33,8 +33,10 @@ export default class Login extends React.Component {
     })
       .then(response => {
         this.storeData(response.data)
+        console.log(response.data)
         this.setState({ loading: false })
         navigation.navigate('Acceleration')
+
       }).catch(error => {
         console.log(error)
         this.setState({ loading: false })
@@ -81,8 +83,9 @@ export default class Login extends React.Component {
         <Button
           title="Entrar"
           color="#7800ff"
-          disabled={(this.validateEmail(this.state.email) && !!this.state.password.length) || this.state.loading === true}
-          onPress={this.handlerSubmit()}
+          disabled={(this.validateEmail(this.state.email) && !this.state.password.length) || this.state.loading === true}
+          //disabled={(this.validateEmail(this.state.email) && !!this.state.password.length) || this.state.loading === true}
+          onPress={() => this.handlerSubmit()}
         >
         </Button>
       </View>
