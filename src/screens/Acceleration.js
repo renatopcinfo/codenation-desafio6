@@ -1,5 +1,12 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  ActivityIndicator
+} from 'react-native';
 const axios = require('axios')
 
 import AccelerationItem from '../components/AccelerationItem';
@@ -84,19 +91,20 @@ const accelerations = [{
   "company_count": 1
 }]
 
-export default function Acceleration() {
+export default function Acceleration({ navigation }) {
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([])
 
   useEffect(() => {
-    retrieveData(dados);
+    retrieveData();
     handlerAcc();
   }, []);
 
   handlerAcc = () => {
     axios.get('https://api.codenation.dev/v1/acceleration')
       .then(response => {
+        //setData(response)
         console.log(response)
       }).catch(error => {
         console.log(error)
@@ -127,6 +135,7 @@ export default function Acceleration() {
           source={{ uri: 'https://forum.codenation.com.br/uploads/default/original/2X/2/2d2d2a9469f0171e7df2c4ee97f70c555e431e76.png' }}
         />
       </View>
+
       <ActivityIndicator size="large" animating={loading} />
       <Text style={styles.title}>Acelerações</Text>
       <FlatList
@@ -154,6 +163,11 @@ const styles = StyleSheet.create({
   headerImage: {
     height: 45,
     width: 250
+  },
+  profileImage: {
+    height: 46,
+    width: 46,
+    borderRadius: 23
   },
   title: {
     color: '#7800ff',

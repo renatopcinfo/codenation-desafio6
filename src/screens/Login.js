@@ -6,6 +6,7 @@ export default class Login extends React.Component {
   state = {
     email: '',
     password: '',
+    validateEmail: true,
     loading: false
   }
 
@@ -16,7 +17,6 @@ export default class Login extends React.Component {
       // Error saving data
     }
   };
-
 
   validateEmail = (email) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -35,7 +35,7 @@ export default class Login extends React.Component {
         this.storeData(response.data)
         console.log(response.data)
         this.setState({ loading: false })
-        navigation.navigate('Acceleration')
+        this.props.navigation.navigate('Acceleration')
 
       }).catch(error => {
         console.log(error)
@@ -81,10 +81,10 @@ export default class Login extends React.Component {
           returnKeyType="send"
         />
         <Button
+          className="submit-login"
           title="Entrar"
           color="#7800ff"
           disabled={(this.validateEmail(this.state.email) && !this.state.password.length) || this.state.loading === true}
-          //disabled={(this.validateEmail(this.state.email) && !!this.state.password.length) || this.state.loading === true}
           onPress={() => this.handlerSubmit()}
         >
         </Button>
