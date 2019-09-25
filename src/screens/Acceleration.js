@@ -103,7 +103,7 @@ export default function Acceleration() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    retrieveData(data);
+    retrieveData();
     handlerAcc();
   }, []);
 
@@ -111,7 +111,7 @@ export default function Acceleration() {
   handlerAcc = () => {
     axios.get('https://api.codenation.dev/v1/acceleration')
       .then(response => {
-        setData(response)
+        setData(response.data)
         //console.log(response)
       }).catch(error => {
         console.log(error)
@@ -137,7 +137,7 @@ export default function Acceleration() {
   AsyncStorage.setItem('photo', JSON.stringify(photoAcc), () => {
     AsyncStorage.getItem('photo', (err, result) => {
       //console.log(result);
-      photoProfile(result)
+      //photoProfile(result)
     });
   });
 
@@ -151,8 +151,8 @@ export default function Acceleration() {
         />
 
         <Image
-          //style={styles.profileImage}
-          photoProfile
+        //style={styles.profileImage}
+        //photoProfile
         />
       </View>
 
