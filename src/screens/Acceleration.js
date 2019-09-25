@@ -5,7 +5,8 @@ import {
   View,
   Image,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
+  AsyncStorage
 } from 'react-native';
 const axios = require('axios')
 
@@ -91,21 +92,27 @@ const accelerations = [{
   "company_count": 1
 }]
 
-export default function Acceleration({ navigation }) {
+const photoAcc = {
+  img: source = { uri: 'https://secure.gravatar.com/avatar/f50a9db56e231198af3507f10b5d5491?d=mm' },
+
+};
+
+export default function Acceleration() {
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([])
 
   useEffect(() => {
-    retrieveData();
+    retrieveData(data);
     handlerAcc();
   }, []);
+
 
   handlerAcc = () => {
     axios.get('https://api.codenation.dev/v1/acceleration')
       .then(response => {
-        //setData(response)
-        console.log(response)
+        setData(response)
+        //console.log(response)
       }).catch(error => {
         console.log(error)
 
@@ -117,15 +124,23 @@ export default function Acceleration({ navigation }) {
     try {
       const value = await AsyncStorage.getItem('user');
       if (value !== null) {
-        // We have data!!
+
         console.log(JSON.parse(value));
         setLoading(false);
       }
     } catch (error) {
       setLoading(false);
-      // Error retrieving data
+
     }
   };
+
+  AsyncStorage.setItem('photo', JSON.stringify(photoAcc), () => {
+    AsyncStorage.getItem('photo', (err, result) => {
+      //console.log(result);
+      photoProfile(result)
+    });
+  });
+
 
   return (
     <View style={styles.container}>
@@ -133,6 +148,11 @@ export default function Acceleration({ navigation }) {
         <Image
           style={styles.headerImage}
           source={{ uri: 'https://forum.codenation.com.br/uploads/default/original/2X/2/2d2d2a9469f0171e7df2c4ee97f70c555e431e76.png' }}
+        />
+
+        <Image
+          //style={styles.profileImage}
+          photoProfile
         />
       </View>
 

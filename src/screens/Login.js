@@ -6,7 +6,7 @@ export default class Login extends React.Component {
   state = {
     email: '',
     password: '',
-    validateEmail: true,
+    validateEmail: false,
     loading: false
   }
 
